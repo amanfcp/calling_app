@@ -2,7 +2,9 @@ package com.calling_app
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -75,6 +77,11 @@ class GroupNotifications (reactContext: ReactApplicationContext) : ReactContextB
     private fun sendNotification(person: Person) {
         count++
 
+        val intent = Intent(reactApplicationContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(reactApplicationContext, 0, intent, 0)
+
         val newLine = "This is message number $count"
 
         val newNotification = NotificationCompat.Builder(reactApplicationContext, CHANNEL_ID)
@@ -85,12 +92,14 @@ class GroupNotifications (reactContext: ReactApplicationContext) : ReactContextB
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setStyle(person.inboxStyle.addLine(newLine))
+            .setContentIntent(pendingIntent)
             .build()
 
         val summaryNotification = NotificationCompat.Builder(reactApplicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setGroup(GROUP)
             .setGroupSummary(true)
+            .setContentIntent(pendingIntent)
             .build()
 
 
