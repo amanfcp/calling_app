@@ -10,7 +10,6 @@ const App = () => {
     pushNotifications.localNotification(messageId)
   };
 
-
   return (
     <View style={styles.root}>
       <Pressable style={styles.button} onPress={pressHandler.bind(this, 1)}>
