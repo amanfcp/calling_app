@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Pressable, Text, NativeModules } from 'react-native';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
+import { pushNotifications } from './src/config';
 
-const { GroupNotification } = NativeModules;
+pushNotifications.configure();
 
 const App = () => {
 
   const pressHandler = (messageId) => {
-    GroupNotification.groupNotification(messageId, `Person ${messageId}`)
+    pushNotifications.localNotification(messageId)
   };
 
 
