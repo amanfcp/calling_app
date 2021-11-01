@@ -79,14 +79,16 @@ const dummyNotification = {
 let count = 0;
 
 const localNotification = (messageId, notification = dummyNotification, data = {}) => {
-    if (count === 10) count = 0;
-    else count++;
     // PARAM 1 => this is a dummy id, pass the messageId that will be received via firebase notification
     // PARAM 2 => notification object that will be received via firebase notification
     // PARAM 3 => data object that will be received via firebase notification
 
-    // POP UP NOTIFICATION
-    PushNotification.localNotification({
+    if (count === 10) count = 0;
+    else count++;
+
+    const isGroup = !!notification.group;
+
+    let localNotificationObject = {
         data,
 
         // (optional) default: true
@@ -112,9 +114,6 @@ const localNotification = (messageId, notification = dummyNotification, data = {
 
         // (optional) add group to message
         group: 'CHANNEL_ID',
-
-        // groupSummary: true,
-
 
         // (optional) set whether this is an "ongoing" notification
         ongoing: false,
@@ -168,20 +167,34 @@ const localNotification = (messageId, notification = dummyNotification, data = {
         //com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
 
         // for grouping of notifications like whatsApp. If you do not want grouping of notifications do not pass this key 
-        // style: 'messaging',
-    });
+        // "messaging", "inbox"
+        style: 'messaging',
+    }
+
+    if (isGroup) {
+        localNotificationObject = {
+            ...localNotificationObject,
+            isGroup,
+            groupPersonKey: notification.title + count,
+            groupId: notification?.group?.groupId,
+            groupName: notification?.group?.groupName,
+        }
+    }
+
+    // POP UP NOTIFICATION
+    PushNotification.localNotification(localNotificationObject);
+    console.log('file: pushNotifications.js => line 186 => localNotification => localNotificationObject', localNotificationObject);
 
 
     // GROUP SUMMARY 
-    // PushNotification.localNotification({
-    //     channelId: 'CHANNEL_ID',
-    //     smallIcon: 'ic_notification',
-    //     group: 'CHANNEL_ID',
-    //     groupSummary: true,
-    //     id: 0,
-    //     subText: 'this is my subtext',
-    //     message: notification.message,
-    // })
+    PushNotification.localNotification({
+        channelId: 'CHANNEL_ID',
+        smallIcon: 'ic_notification',
+        group: 'CHANNEL_ID',
+        groupSummary: true,
+        id: 0,
+        message: notification.message,
+    })
 };
 
 export {

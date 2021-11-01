@@ -5429,7 +5429,7 @@ react-native-codegen@^0.0.7:
 
 "react-native-push-notification@https://github.com/amanfcp/react-native-push-notification.git":
   version "8.1.1"
-  resolved "https://github.com/amanfcp/react-native-push-notification.git#3d424be9ecdf4c7052742cb63a3c6917621240ad"
+  resolved "https://github.com/amanfcp/react-native-push-notification.git#4935d8200615f4a160222b186ba94fcf78fe6560"
 
 react-native@0.66.1:
   version "0.66.1"
