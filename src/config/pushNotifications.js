@@ -183,7 +183,6 @@ const localNotification = (messageId, notification = dummyNotification, data = {
 
     // POP UP NOTIFICATION
     PushNotification.localNotification(localNotificationObject);
-    console.log('file: pushNotifications.js => line 186 => localNotification => localNotificationObject', localNotificationObject);
 
 
     // GROUP SUMMARY 
